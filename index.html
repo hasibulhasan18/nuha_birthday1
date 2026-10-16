@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 17th Birthday Nuha</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600;700&family=Poppins:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #050814;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scene.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        /* --- SCENE 1: WELCOME --- */
+        #scene1 {
+            background: radial-gradient(circle at center, #111a30 0%, #050814 100%);
+        }
+
+        .welcome-container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 20px;
+            animation: fadeInScale 1.5s ease-out;
+        }
+
+        .cat-avatar-frame {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.2);
+            position: relative;
+        }
+
+        .cat-avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05);
+        }
+
+        .welcome-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            color: #fce38a;
+            text-shadow: 0 0 20px rgba(252, 227, 138, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2b1810;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(253, 160, 133, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(253, 160, 133, 0.6);
+        }
+
+        /* --- SCENE 2: CANVAS DRIVE & DRONE SHOW --- */
+        #scene2 {
+            background: #020408;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .scene2-overlay {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .scene2-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- SCENE 3: VINTAGE NOTE --- */
+        #scene3 {
+            background: radial-gradient(circle at center, #231711 0%, #0d0806 100%);
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .letter-container {
+            max-width: 750px;
+            width: 90%;
+            background: #fdfaf2;
+            color: #2b1d12;
+            padding: 50px 60px;
+            border-radius: 4px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), inset 0 0 80px rgba(180, 130, 80, 0.15);
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpLetter 1.2s forwards 0.3s;
+            border: 1px solid #e3d2be;
+        }
+
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(#d1b899 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .coffee-stain {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 6px solid rgba(139, 90, 43, 0.12);
+            box-shadow: inset 0 0 20px rgba(139, 90, 43, 0.08);
+            pointer-events: none;
+        }
+
+        .polaroid-wrapper {
+            float: right;
+            background: #fff;
+            padding: 12px 12px 35px 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: rotate(4deg);
+            margin: 0 0 20px 30px;
+            width: 180px;
+            text-align: center;
+        }
+
+        .polaroid-wrapper img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .polaroid-caption {
+            font-family: 'Caveat', cursive;
+            color: #4a3525;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        .letter-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #3b2414;
+            border-bottom: 2px solid #d4c3b0;
+            padding-bottom: 10px;
+        }
+
+        .letter-body {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #3d2817;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .letter-signature {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: #5c3a21;
+            text-align: right;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+
+        .audio-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+        }
+
+        .audio-toggle:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUpLetter {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="audioToggle" class="audio-toggle">🎵 Music: Off</button>
+
+    <!-- SCENE 1 -->
+    <div id="scene1" class="scene active">
+        <div class="welcome-container">
+            <div class="cat-avatar-frame">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80" alt="Cute Cat">
+            </div>
+            <h1 class="welcome-title">Welcome, Nuha</h1>
+            <button class="btn-primary" onclick="startExperience()">Next</button>
+        </div>
+    </div>
+
+    <!-- SCENE 2 -->
+    <div id="scene2" class="scene">
+        <canvas id="driveCanvas"></canvas>
+        <div id="scene2BtnContainer" class="scene2-overlay">
+            <button class="btn-primary" onclick="goToScene3()">Next</button>
+        </div>
+    </div>
+
+    <!-- SCENE 3 -->
+    <div id="scene3" class="scene">
+        <div class="letter-container">
+            <div class="coffee-stain"></div>
+            <div class="polaroid-wrapper">
+                <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=300&q=80" alt="Special Cat">
+                <div class="polaroid-caption">My favorite companion</div>
+            </div>
+            <h2 class="letter-heading">Dearest Nuha,</h2>
+            <div class="letter-body">
+                On this wonderful day as you step into your 17th year, I wanted to create something truly magical just for you. Seventeen is such a beautiful milestone—a chapter full of bright dreams, sweet laughter, and endless possibilities. May this year bring warmth to your heart, brilliance to your days, and joy that lingers in every moment. You deserve all the wonderful things this world has to offer. Have the happiest birthday ever!
+            </div>
+            <div class="letter-signature">
+                Iti, tomar Hamba (Hasan)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- AUDIO ENGINE (Web Audio API) ---
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let musicInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playHappyBirthdayNote(freq, time, duration) {
+            if (!audioCtx || !isMusicPlaying) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + time);
+                
+                gain.gain.setValueAtTime(0, audioCtx.currentTime + time);
+                gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + time + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + time + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(audioCtx.currentTime + time);
+                osc.stop(audioCtx.currentTime + time + duration);
+            } catch(e) {}
+        }
+
+        function playBirthdayMelody() {
+            if (!isMusicPlaying) return;
+            // Notes frequencies (C major scale approximated for Happy Birthday)
+            const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.00, A4 = 440.00, C5 = 523.25;
+            
+            const melody = [
+                { f: C4, t: 0.0, d: 0.3 }, { f: C4, t: 0.35, d: 0.3 }, { f: D4, t: 0.7, d: 0.6 }, { f: C4, t: 1.4, d: 0.6 }, { f: F4, t: 2.1, d: 0.6 }, { f: E4, t: 2.8, d: 1.0 },
+                { f: C4, t: 4.0, d: 0.3 }, { f: C4, t: 4.35, d: 0.3 }, { f: D4, t: 4.7, d: 0.6 }, { f: C4, t: 5.4, d: 0.6 }, { f: G4, t: 6.1, d: 0.6 }, { f: F4, t: 6.8, d: 1.0 },
+                { f: C4, t: 8.0, d: 0.3 }, { f: C4, t: 8.35, d: 0.3 }, { f: C5, t: 8.7, d: 0.6 }, { f: A4, t: 9.4, d: 0.6 }, { f: F4, t: 10.1, d: 0.6 }, { f: E4, t: 10.8, d: 0.6 }, { f: D4, t: 11.5, d: 1.0 },
+                { f: A4, t: 12.5, d: 0.3 }, { f: A4, t: 12.85, d: 0.3 }, { f: F4, t: 13.2, d: 0.6 }, { f: G4, t: 13.9, d: 0.6 }, { f: F4, t: 14.6, d: 1.2 }
+            ];
+
+            const loopDuration = 16.5;
+            melody.forEach(note => {
+                playHappyBirthdayNote(note.f, note.t, note.d);
+            });
+
+            if (isMusicPlaying) {
+                musicInterval = setTimeout(playBirthdayMelody, loopDuration * 1000);
+            }
+        }
+
+        const audioToggleBtn = document.getElementById('audioToggle');
+        audioToggleBtn.addEventListener('click', () => {
+            initAudio();
+            isMusicPlaying = !isMusicPlaying;
+            if (isMusicPlaying) {
+                audioToggleBtn.textContent = '🎵 Music: On';
+                playBirthdayMelody();
+            } else {
+                audioToggleBtn.textContent = '🎵 Music: Off';
+                if (musicInterval) clearTimeout(musicInterval);
+            }
+        });
+
+        // --- NAVIGATION ---
+        function startExperience() {
+            initAudio();
+            if (!isMusicPlaying) {
+                isMusicPlaying = true;
+                audioToggleBtn.textContent = '🎵 Music: On';
+                playBirthdayMelody();
+            }
+            document.getElementById('scene1').classList.remove('active');
+            document.getElementById('scene2').classList.add('active');
+            initDriveScene();
+        }
+
+        function goToScene3() {
+            document.getElementById('scene2').classList.remove('active');
+            document.getElementById('scene3').classList.add('active');
+        }
+
+        // --- SCENE 2: CINEMATIC DRIVE & DRONE SHOW CANVAS ---
+        let canvas, ctx;
+        let carZ = 0;
+        let animationRunning = false;
+
+        function initDriveScene() {
+            canvas = document.getElementById('driveCanvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            carZ = 0;
+            animationRunning = true;
+            requestAnimationFrame(updateDriveScene);
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function updateDriveScene() {
+            if (!animationRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const width = canvas.width;
+            const height = canvas.height;
+            const horizonY = height * 0.48;
+
+            // 1. Night Sky
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
+            skyGrad.addColorStop(0, '#02040a');
+            skyGrad.addColorStop(1, '#101b35');
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, width, horizonY);
+
+            // Stars
+            ctx.fillStyle = '#ffffff';
+            for (let i = 0; i < 60; i++) {
+                let sx = (Math.sin(i * 99) * 10000) % width;
+                if (sx < 0) sx += width;
+                let sy = (Math.cos(i * 33) * 5000) % horizonY;
+                if (sy < 0) sy += horizonY;
+                ctx.fillRect(sx, sy, 1.5, 1.5);
+            }
+
+            // 2. Ocean (Beach area reached when carZ > 300)
+            if (carZ > 300) {
+                const oceanGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+                oceanGrad.addColorStop(0, '#051329');
+                oceanGrad.addColorStop(1, '#0a2342');
+                ctx.fillStyle = oceanGrad;
+                ctx.fillRect(0, horizonY, width, height - horizonY);
+
+                // Gentle shore waves glow
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                let waveY = horizonY + (carZ - 300) * 0.2;
+                if (waveY < height) {
+                    ctx.moveTo(0, waveY);
+                    ctx.lineTo(width, waveY);
+                    ctx.stroke();
+                }
+            } else {
+                // Land / Coast scenery
+                const landGrad = ctx.createLinearGradient(0, horizonY, 0, height);
+                landGrad.addColorStop(0, '#0b131a');
+                landGrad.addColorStop(1, '#04070a');
+                ctx.fillStyle = landGrad;
+                ctx.fillRect(0, horizonY, width, height - horizonY);
+            }
+
+            // 3. Road perspective drawing
+            const roadWidthBottom = width * 0.7;
+            const roadWidthTop = 40;
+            const roadCenterX = width / 2;
+
+            ctx.fillStyle = '#1c2229';
+            ctx.beginPath();
+            ctx.moveTo(roadCenterX - roadWidthTop / 2, horizonY);
+            ctx.lineTo(roadCenterX + roadWidthTop / 2, horizonY);
+            ctx.lineTo(roadCenterX + roadWidthBottom / 2, height);
+            ctx.lineTo(roadCenterX - roadWidthBottom / 2, height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Road shoulders / curbs
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(roadCenterX - roadWidthTop / 2, horizonY);
+            ctx.lineTo(roadCenterX - roadWidthBottom / 2, height);
+            ctx.moveTo(roadCenterX + roadWidthTop / 2, horizonY);
+            ctx.lineTo(roadCenterX + roadWidthBottom / 2, height);
+            ctx.stroke();
+
+            // Center dashes moving towards viewer
+            ctx.strokeStyle = '#f6d365';
+            ctx.lineWidth = 3;
+            let dashOffset = (carZ * 15) % 40;
+            for (let y = horizonY; y < height; y += 40) {
+                let actualY = y + dashOffset;
+                if (actualY > height) continue;
+                let factor = (actualY - horizonY) / (height - horizonY);
+                let currentRoadW = roadWidthTop + (roadWidthBottom - roadWidthTop) * factor;
+                let currentCenterX = roadCenterX;
+                
+                ctx.beginPath();
+                ctx.moveTo(currentCenterX, actualY);
+                ctx.lineTo(currentCenterX, actualY + 15 * factor);
+                ctx.stroke();
+            }
+
+            // 4. Drone Light Show in Sky (Appears at destination carZ >= 400)
+            if (carZ >= 400) {
+                let showProgress = Math.min(1, (carZ - 400) / 150);
+                
+                ctx.save();
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = '#00ffff';
+                ctx.fillStyle = `rgba(0, 255, 255, ${showProgress})`;
+                ctx.font = `700 ${Math.max(18, width * 0.035)}px 'Cinzel', serif`;
+                ctx.textAlign = 'center';
+                ctx.fillText("Nuha, Many Many Happy Birthday to You", width / 2, horizonY * 0.4);
+                
+                // Drone blinking LED lights effect
+                for(let i=0; i<30; i++) {
+                    let dx = width/2 - 350 + (i * 24);
+                    let dy = horizonY * 0.55 + Math.sin(Date.now() * 0.005 + i) * 5;
+                    ctx.fillStyle = (i % 2 === 0) ? '#ff3366' : '#00ffff';
+                    ctx.beginPath();
+                    ctx.arc(dx, dy, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            // Advance car forward
+            carZ += 1.2;
+
+            if (carZ < 600) {
+                requestAnimationFrame(updateDriveScene);
+            } else {
+                // Reached destination, show Next button
+                document.getElementById('scene2BtnContainer').classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>
